@@ -1,41 +1,23 @@
+
 package model;
 
 import java.time.LocalDate;
 
-public class Petugas {
-    private String nip;
-    private String namaLengkap;
+public class Petugas extends Pegawai {
+
     private LocalDate tanggalLahir;
-    private String password;
-//    private String statusAkun;
     private String idShift;
 
     public Petugas() {
+        super();
     }
 
-    public Petugas(String nip, String namaLengkap, LocalDate tanggalLahir, String password, String statusAkun, String idShift) {
-        this.nip = nip;
-        this.namaLengkap = namaLengkap;
+    public Petugas(String nip, String namaLengkap, LocalDate tanggalLahir,
+                   String password, String statusAkun, String idShift) {
+
+        super(nip, namaLengkap, password, statusAkun);
         this.tanggalLahir = tanggalLahir;
-        this.password = password;
-//        this.statusAkun = statusAkun;
         this.idShift = idShift;
-    }
-
-    public String getNip() {
-        return nip;
-    }
-
-    public void setNip(String nip) {
-        this.nip = nip;
-    }
-
-    public String getNamaLengkap() {
-        return namaLengkap;
-    }
-
-    public void setNamaLengkap(String namaLengkap) {
-        this.namaLengkap = namaLengkap;
     }
 
     public LocalDate getTanggalLahir() {
@@ -46,27 +28,16 @@ public class Petugas {
         this.tanggalLahir = tanggalLahir;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-//    public String getStatusAkun() {
-//        return statusAkun;
-//    }
-//
-//    public void setStatusAkun(String statusAkun) {
-//        this.statusAkun = statusAkun;
-//    }
-
     public String getIdShift() {
         return idShift;
     }
 
     public void setIdShift(String idShift) {
         this.idShift = idShift;
+    }
+
+    @Override
+    public String getPeran() {
+        return "Petugas";
     }
 }

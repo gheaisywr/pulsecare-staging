@@ -33,9 +33,9 @@ public class AntreanDokter extends javax.swing.JPanel {
                 int baris = jTable2.rowAtPoint(evt.getPoint());
                 int kolom = jTable2.columnAtPoint(evt.getPoint());
 
-                if (baris >= 0 && kolom == 4) {
-                    bukaFormPemeriksaan(baris);
-                }
+            if (baris >= 0 && kolom == 5) {
+                bukaFormPemeriksaan(baris);
+            }
             }
         });
     }
@@ -49,57 +49,79 @@ public class AntreanDokter extends javax.swing.JPanel {
         tampilkanAntrean();
     }
     
-    private void tampilkanAntrean() {
-        if (akunDokter == null) {
-            return;
-        }
+private void tampilkanAntrean() {
 
+    DefaultTableModel model = new DefaultTableModel(
+        new Object[]{
+            "No. Antrean",
+            "ID Kunjungan",
+            "Nama Pasien",
+            "Poliklinik",
+            "Status",
+            "Aksi"
+        }, 0
+    ) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
+    jTable2.setModel(model);
+
+    if (akunDokter == null) {
+        return;
+    }
+
+    try {
         KunjunganDAO dao = new KunjunganDAO();
-        List<Object[]> data;
 
-        try {
-            data = dao.antreanDokterHariIni(
-                    akunDokter.getIdPoli()
-            );
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Gagal mengambil data antrean: " + e.getMessage());
-            return;
-        }
-
-        DefaultTableModel model = new DefaultTableModel(
-                new Object[]{"No. Antrean", "ID Kunjungan", "Pasien", "Status", "Aksi"},
-                0
-        );
+        // Mengambil antrean seluruh poliklinik hari ini
+        List<Object[]> data =
+                dao.antreanSemuaPoliDokterHariIni();
 
         for (Object[] row : data) {
-            String status = row[3].toString();
 
-            if (status.equalsIgnoreCase("menunggu")) {
-                status = "Menunggu";
-            } else if (status.equalsIgnoreCase("diperiksa")) {
-                status = "Diperiksa";
-            } else if (status.equalsIgnoreCase("selesai")) {
-                status = "Selesai";
+            String status = row[4].toString();
+
+            switch (status.toLowerCase()) {
+                case "menunggu":
+                    status = "Menunggu";
+                    break;
+                case "diperiksa":
+                    status = "Sedang Diperiksa";
+                    break;
+                case "selesai":
+                    status = "Selesai";
+                    break;
+                case "batal":
+                    status = "Batal";
+                    break;
             }
 
             model.addRow(new Object[]{
-                row[0],
-                row[1],
-                row[2],
+                row[0], // Nomor antrean
+                row[1], // ID kunjungan
+                row[2], // Nama pasien
+                row[3], // Nama poliklinik
                 status,
-                ""
+                "Periksa"
             });
         }
 
-        jTable2.setModel(model);
-        jTable2.getColumnModel().getColumn(4).setCellRenderer(
-            (table, value, isSelected, hasFocus, row, column) -> {
+        jTable2.getColumnModel().getColumn(5)
+            .setCellRenderer((table, value, selected, focus, row, col) -> {
                 JButton tombol = new JButton("Periksa");
                 return tombol;
-            }
+            });
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Gagal memuat antrean: " + e.getMessage()
         );
     }
+}
     private void bukaFormPemeriksaan(int baris) {
         try {
             String idKunjungan = jTable2.getValueAt(
@@ -180,7 +202,7 @@ public class AntreanDokter extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(100, 127, 140));
-        jLabel3.setText("Pasien hari ini di Poliklinik Penyakit Dalam");
+        jLabel3.setText("Pasien hari ini ");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(235, 58, -1, -1));
 
         jPanel6.setBackground(new java.awt.Color(11, 59, 68));
@@ -254,7 +276,6 @@ public class AntreanDokter extends javax.swing.JPanel {
         namaDokter.setForeground(new java.awt.Color(255, 255, 255));
         namaDokter.setText("Nama Lengkap");
 
-        usernameDokter.setForeground(new java.awt.Color(204, 204, 204));
         usernameDokter.setText("Username");
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pulsecare_profile_icon_50.png"))); // NOI18N
@@ -455,7 +476,10 @@ public class AntreanDokter extends javax.swing.JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
     MainFrame frame = (MainFrame) javax.swing.SwingUtilities.getWindowAncestor(this);
-    frame.tampil("riwayatKunjungan");
+
+        if (frame != null) {
+            frame.tampil("riwayatKunjunganDokter");
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked

@@ -288,7 +288,6 @@ public class DashboardPetugas extends javax.swing.JPanel {
         BtnPasien = new javax.swing.JButton();
         BtnDaftar = new javax.swing.JButton();
         BtnRiwayat = new javax.swing.JButton();
-        BtnStatus = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -360,13 +359,6 @@ public class DashboardPetugas extends javax.swing.JPanel {
         BtnRiwayat.setBorder(null);
         BtnRiwayat.addActionListener(this::BtnRiwayatActionPerformed);
 
-        BtnStatus.setBackground(new java.awt.Color(20, 96, 108));
-        BtnStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        BtnStatus.setForeground(new java.awt.Color(255, 255, 255));
-        BtnStatus.setText("Perbarui Status");
-        BtnStatus.setBorder(null);
-        BtnStatus.addActionListener(this::BtnStatusActionPerformed);
-
         jButton6.setBackground(new java.awt.Color(229, 57, 53));
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
@@ -385,8 +377,8 @@ public class DashboardPetugas extends javax.swing.JPanel {
         namaPengguna.setForeground(new java.awt.Color(255, 255, 255));
         namaPengguna.setText("Nama Lengkap");
 
-        usernamePengguna.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        usernamePengguna.setForeground(new java.awt.Color(204, 204, 204));
+        usernamePengguna.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        usernamePengguna.setForeground(new java.awt.Color(255, 255, 255));
         usernamePengguna.setText("Username");
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pulsecare_profile_icon_50.png"))); // NOI18N
@@ -411,18 +403,21 @@ public class DashboardPetugas extends javax.swing.JPanel {
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(BtnDaftar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BtnPasien, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BtnDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(BtnRiwayat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(14, 14, 14))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(64, 64, 64))))
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel10Layout.createSequentialGroup()
-                            .addGap(61, 61, 61)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                            .addGap(43, 43, 43)
-                            .addComponent(namaPengguna)))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,18 +426,15 @@ public class DashboardPetugas extends javax.swing.JPanel {
                                 .addComponent(jLabel11))
                             .addComponent(jLabel6)))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
+                        .addGap(20, 20, 20)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(namaPengguna))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
                         .addComponent(usernamePengguna)))
-                .addContainerGap(27, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(BtnDaftar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BtnPasien, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BtnDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(BtnStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BtnRiwayat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(14, 14, 14))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -458,12 +450,10 @@ public class DashboardPetugas extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BtnDaftar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BtnStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BtnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(namaPengguna)
@@ -471,7 +461,7 @@ public class DashboardPetugas extends javax.swing.JPanel {
                 .addComponent(usernamePengguna)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 550));
@@ -661,7 +651,7 @@ public class DashboardPetugas extends javax.swing.JPanel {
 
         perbaruiStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         perbaruiStatus.setForeground(new java.awt.Color(22, 63, 76));
-        perbaruiStatus.setText("Perbarui Status");
+        perbaruiStatus.setText("Riwayat Kunjungan");
         perbaruiStatus.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(20, 96, 108), 2, true));
         perbaruiStatus.addActionListener(this::perbaruiStatusActionPerformed);
 
@@ -750,7 +740,7 @@ public class DashboardPetugas extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(shiftSaatini)))
                         .addGap(36, 36, 36)))
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -778,7 +768,7 @@ public class DashboardPetugas extends javax.swing.JPanel {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
-        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 700, 550));
+        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 640, 550));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -810,18 +800,13 @@ public class DashboardPetugas extends javax.swing.JPanel {
     }//GEN-LAST:event_daftarKunjunganActionPerformed
 
     private void perbaruiStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_perbaruiStatusActionPerformed
-    MainFrame frame = (MainFrame) javax.swing.SwingUtilities
-            .getWindowAncestor(this);
+        MainFrame frame = (MainFrame) javax.swing.SwingUtilities
+                .getWindowAncestor(this);
 
-    if (frame != null) {
-        frame.getPerbaruiStatus().setHalamanAsal("dashboardPetugas");
-        frame.tampil("perbaruiStatus");
-    }
+        if (frame != null) {
+            frame.tampil("riwayatKunjungan");
+        }
     }//GEN-LAST:event_perbaruiStatusActionPerformed
-
-    private void BtnStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnStatusActionPerformed
-    bukaHalaman("perbaruiStatus");
-    }//GEN-LAST:event_BtnStatusActionPerformed
 
     private void BtnRiwayatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRiwayatActionPerformed
     bukaHalaman("riwayatKunjungan");
@@ -847,7 +832,6 @@ public class DashboardPetugas extends javax.swing.JPanel {
     private javax.swing.JButton BtnDashboard;
     private javax.swing.JButton BtnPasien;
     private javax.swing.JButton BtnRiwayat;
-    private javax.swing.JButton BtnStatus;
     private javax.swing.JButton daftarKunjungan;
     private javax.swing.JPanel hariIni;
     private javax.swing.JButton jButton6;

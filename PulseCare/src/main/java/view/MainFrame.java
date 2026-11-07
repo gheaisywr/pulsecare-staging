@@ -25,7 +25,7 @@ public class MainFrame extends javax.swing.JFrame {
     private final DaftarkanKunjungan daftarkanKunjungan;
     private final FormPemeriksaan formPemeriksaan;
     private final PerbaruiStatus perbaruiStatus;
-    
+    private final RiwayatKunjunganDokter riwayatKunjunganDokter;
     
     
     /**
@@ -34,7 +34,9 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         
-        setResizable(true);
+        panelUtama.setLayout(new CardLayout());
+        
+        setResizable(false);
         
         panelUtama.add(new MenuUtama(), "menu");
         panelUtama.add(new Login(), "login");
@@ -57,6 +59,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         riwayatKunjungan = new RiwayatKunjungan();
         panelUtama.add(riwayatKunjungan, "riwayatKunjungan");
+        
+        riwayatKunjunganDokter = new RiwayatKunjunganDokter();
+        panelUtama.add(
+            riwayatKunjunganDokter,
+            "riwayatKunjunganDokter"
+        );
         
         CardLayout cl = (CardLayout) panelUtama.getLayout();
 
@@ -169,11 +177,12 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PulseCare");
         setSize(new java.awt.Dimension(565, 416));
-        getContentPane().setLayout(new java.awt.CardLayout());
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        panelUtama.setPreferredSize(new java.awt.Dimension(565, 416));
-        panelUtama.setLayout(new java.awt.CardLayout());
-        getContentPane().add(panelUtama, "card2");
+        panelUtama.setPreferredSize(new java.awt.Dimension(806, 550));
+        panelUtama.setRequestFocusEnabled(false);
+        panelUtama.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(panelUtama, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 806, 550));
 
         setBounds(0, 0, 820, 558);
     }// </editor-fold>//GEN-END:initComponents
@@ -186,12 +195,20 @@ public class MainFrame extends javax.swing.JFrame {
         if (namaHalaman.equals("antreanDokter")) {
             antreanDokter.muatAntreanDokter();
         }
+        
+        if (namaHalaman.equals("perbaruiStatus")) {
+            perbaruiStatus.muatDataHariIni();
+        }
 
         if (namaHalaman.equals("dashboardPetugas")
                 && dashboardPetugas != null) {
             dashboardPetugas.revalidate();
             dashboardPetugas.repaint();
         }
+        
+    if (namaHalaman.equals("riwayatKunjunganDokter")) {
+        riwayatKunjunganDokter.refreshData();
+    }
 
         panelUtama.revalidate();
         panelUtama.repaint();

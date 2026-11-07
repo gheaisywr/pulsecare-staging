@@ -23,6 +23,17 @@ private String idKunjunganTerpilih = null;
      */
     public PerbaruiStatus() {
         initComponents();
+        
+        jComboBox1.setModel(
+            new javax.swing.DefaultComboBoxModel<>(
+                new String[]{
+                    "Menunggu",
+                    "Diperiksa",
+                    "Selesai",
+                    "Batal"
+                }
+            )
+        );
 
         aturTabel();
         muatTabelKunjunganHariIni();
@@ -35,6 +46,16 @@ private String idKunjunganTerpilih = null;
 
         jButton2.addActionListener(e -> simpanStatus());
     }
+    
+    public void muatDataHariIni() {
+    idKunjunganTerpilih = null;
+        lblKunjunganTerpilih.setText(
+            "Belum ada kunjungan dipilih"
+        );
+
+        muatTabelKunjunganHariIni();
+    }
+    
     public void setInfoPengguna(String nama, String nip) {
         namaAdmin.setText(nama);
         usernameAdmin.setText(nip);
@@ -187,6 +208,9 @@ private String idKunjunganTerpilih = null;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -214,6 +238,12 @@ private String idKunjunganTerpilih = null;
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
         jLabel25 = new javax.swing.JLabel();
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
 
         setPreferredSize(new java.awt.Dimension(806, 550));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -302,7 +332,6 @@ private String idKunjunganTerpilih = null;
         namaAdmin.setForeground(new java.awt.Color(255, 255, 255));
         namaAdmin.setText("Nama Lengkap");
 
-        usernameAdmin.setForeground(new java.awt.Color(204, 204, 204));
         usernameAdmin.setText("Username");
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pulsecare_profile_icon_50.png"))); // NOI18N
@@ -561,8 +590,11 @@ private String idKunjunganTerpilih = null;
     }//GEN-LAST:event_btnPerbaruiStatusMouseClicked
 
     private void btnRiwayatKunjunganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRiwayatKunjunganActionPerformed
-        MainFrame frame = (MainFrame) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.tampil("riwayatKunjungan");
+    MainFrame frame = (MainFrame) javax.swing.SwingUtilities.getWindowAncestor(this);
+
+    if (frame != null) {
+        frame.tampil("riwayatKunjunganDokter");
+    }
     }//GEN-LAST:event_btnRiwayatKunjunganActionPerformed
 
     private void btnRiwayatKunjunganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRiwayatKunjunganMouseClicked
@@ -592,16 +624,7 @@ private String idKunjunganTerpilih = null;
     }//GEN-LAST:event_btnDashboardDokterActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        jComboBox1.setModel(
-            new javax.swing.DefaultComboBoxModel<>(
-                new String[] {
-                    "Menunggu",
-                    "Diperiksa",
-                    "Selesai",
-                    "Batal"
-                }
-            )
-        );
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
 
@@ -620,6 +643,9 @@ private String idKunjunganTerpilih = null;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

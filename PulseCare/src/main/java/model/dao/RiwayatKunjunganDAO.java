@@ -68,4 +68,25 @@ public class RiwayatKunjunganDAO {
 
         return daftar;
     }
+    
+    public boolean hapus(String idKunjungan) throws SQLException {
+
+        String sql = """
+            DELETE FROM riwayat_kunjungan
+            WHERE id_kunjungan = ?
+            AND NOT EXISTS (
+                SELECT 1
+                FROM hasil_kunjungan
+                WHERE hasil_kunjungan.id_kunjungan =
+                      riwayat_kunjungan.id_kunjungan
+            )
+        """;
+
+        try (Connection conn = KoneksiDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, idKunjungan);
+            return ps.executeUpdate() > 0;
+        }
+    }
 }

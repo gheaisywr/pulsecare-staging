@@ -230,6 +230,90 @@ public class KunjunganDAO {
 
         return statistik;
     }
+    
+    // Mengambil antrean seluruh poliklinik untuk dashboard dokter
+public List<Object[]> antreanSemuaPoliHariIni() throws SQLException {
+
+    List<Object[]> daftar = new ArrayList<>();
+
+    String sql = """
+        SELECT
+            rk.nomor_antrian,
+            p.nama_lengkap,
+            pol.nama_poli,
+            rk.status_kunjungan
+        FROM riwayat_kunjungan rk
+        JOIN pasien p
+            ON rk.id_pasien = p.id_pasien
+        JOIN poliklinik pol
+            ON rk.id_poli = pol.id_poli
+        WHERE rk.tanggal_pendaftaran = CURDATE()
+          AND rk.status_kunjungan IN ('menunggu', 'diperiksa')
+        ORDER BY
+            CASE
+                WHEN rk.status_kunjungan = 'diperiksa' THEN 1
+                WHEN rk.status_kunjungan = 'menunggu' THEN 2
+                ELSE 3
+            END,
+            rk.waktu_pendaftaran ASC
+    """;
+
+    try (Connection conn = KoneksiDB.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            daftar.add(new Object[]{
+                rs.getString("nomor_antrian"),
+                rs.getString("nama_lengkap"),
+                rs.getString("nama_poli"),
+                rs.getString("status_kunjungan")
+            });
+        }
+    }
+
+    return daftar;
+}
+
+public List<Object[]> antreanSemuaPoliDokterHariIni()
+        throws SQLException {
+
+    List<Object[]> daftar = new ArrayList<>();
+
+    String sql = """
+        SELECT
+            rk.nomor_antrian,
+            rk.id_kunjungan,
+            p.nama_lengkap,
+            pol.nama_poli,
+            rk.status_kunjungan
+        FROM riwayat_kunjungan rk
+        JOIN pasien p
+            ON rk.id_pasien = p.id_pasien
+        JOIN poliklinik pol
+            ON rk.id_poli = pol.id_poli
+        WHERE rk.tanggal_pendaftaran = CURDATE()
+          AND rk.status_kunjungan IN ('menunggu', 'diperiksa')
+        ORDER BY rk.waktu_pendaftaran ASC
+    """;
+
+    try (Connection conn = KoneksiDB.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            daftar.add(new Object[]{
+                rs.getString("nomor_antrian"),
+                rs.getString("id_kunjungan"),
+                rs.getString("nama_lengkap"),
+                rs.getString("nama_poli"),
+                rs.getString("status_kunjungan")
+            });
+        }
+    }
+
+    return daftar;
+}
 
     // Mengambil data pasien yang sedang diperiksa
     public Object[] pasienSedangDiperiksa(String idPoli)
@@ -300,6 +384,28 @@ public class KunjunganDAO {
         }
 
         return daftar;
+    }
+       
+       public String nomorAntreanBerikutnya() throws SQLException {
+
+        String sql = """
+            SELECT COALESCE(
+                MAX(CAST(nomor_antrian AS UNSIGNED)), 0
+            ) + 1 AS nomor
+            FROM riwayat_kunjungan
+            WHERE tanggal_pendaftaran = CURDATE()
+        """;
+
+        try (Connection conn = KoneksiDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return String.format("%03d", rs.getInt("nomor"));
+            }
+        }
+
+        return "001";
     }
         // Menyimpan pendaftaran kunjungan dan membuat nomor antrean otomatis
     public String[] tambahPendaftaran(
@@ -406,42 +512,44 @@ public class KunjunganDAO {
             return daftar;
         }
         // Mengambil detail kunjungan berdasarkan ID kunjungan
-    public Object[] detailKunjunganUntukPemeriksaan(String idKunjungan)
-            throws SQLException {
+public Object[] detailKunjunganUntukPemeriksaan(String idKunjungan)
+        throws SQLException {
 
-        String sql = "SELECT rk.id_kunjungan, "
-                + "rk.nomor_antrian, "
-                + "p.id_pasien, p.nama_lengkap, "
-                + "p.tanggal_lahir, p.jenis_kelamin, "
-                + "p.status_bpjs, pol.nama_poli, "
-                + "rk.keluhan "
-                + "FROM riwayat_kunjungan rk "
-                + "JOIN pasien p ON rk.id_pasien = p.id_pasien "
-                + "JOIN poliklinik pol ON rk.id_poli = pol.id_poli "
-                + "WHERE rk.id_kunjungan = ?";
+    String sql = "SELECT rk.id_kunjungan, "
+            + "rk.nomor_antrian, "
+            + "p.id_pasien, p.nama_lengkap, "
+            + "p.tanggal_lahir, p.jenis_kelamin, "
+            + "p.status_bpjs, pol.nama_poli, "
+            + "hk.keluhan "
+            + "FROM riwayat_kunjungan rk "
+            + "JOIN pasien p ON rk.id_pasien = p.id_pasien "
+            + "JOIN poliklinik pol ON rk.id_poli = pol.id_poli "
+            + "LEFT JOIN hasil_kunjungan hk "
+            + "ON rk.id_kunjungan = hk.id_kunjungan "
+            + "WHERE rk.id_kunjungan = ?";
 
-        try (Connection conn = KoneksiDB.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+    try (Connection conn = KoneksiDB.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, idKunjungan);
+        ps.setString(1, idKunjungan);
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return new Object[]{
-                        rs.getString("id_kunjungan"),
-                        rs.getString("nomor_antrian"),
-                        rs.getString("id_pasien"),
-                        rs.getString("nama_lengkap"),
-                        rs.getDate("tanggal_lahir"),
-                        rs.getString("jenis_kelamin"),
-                        rs.getString("status_bpjs"),
-                        rs.getString("nama_poli"),
-                        rs.getString("keluhan")
-                    };
-                }
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return new Object[]{
+                    rs.getString("id_kunjungan"),
+                    rs.getString("nomor_antrian"),
+                    rs.getString("id_pasien"),
+                    rs.getString("nama_lengkap"),
+                    rs.getDate("tanggal_lahir"),
+                    rs.getString("jenis_kelamin"),
+                    rs.getString("status_bpjs"),
+                    rs.getString("nama_poli"),
+                    rs.getString("keluhan")
+                };
             }
         }
-
-        return null;
     }
+
+    return null;
+}
 }

@@ -93,7 +93,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="8c" green="7f" red="64" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Pasien hari ini di Poliklinik Penyakit Dalam"/>
+                <Property name="text" type="java.lang.String" value="Pasien hari ini "/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -349,9 +349,6 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="usernameDokter">
                   <Properties>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="cc" green="cc" red="cc" type="rgb"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Username"/>
                   </Properties>
                 </Component>

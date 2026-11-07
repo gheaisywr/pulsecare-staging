@@ -36,12 +36,56 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
         initComponents();
         muatPoliklinik();
 
+        aturTanggalDanAntrean();
+
         jButton2.addActionListener(e -> batalForm());
+    }
+    
+    private void aturTanggalDanAntrean() {
+
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        jTextField4.setText(
+                LocalDate.now().format(formatter)
+        );
+
+        jTextField4.setEditable(false);
+        jTextField5.setEditable(false);
+
+        muatNomorAntrean();
+    }
+    
+    private void muatNomorAntrean() {
+
+        try {
+            KunjunganDAO dao = new KunjunganDAO();
+
+            jTextField5.setText(
+                    dao.nomorAntreanBerikutnya()
+            );
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Gagal memuat nomor antrean: " + e.getMessage()
+            );
+        }
+    }
+    
+    private void bukaHalaman(String namaHalaman) {
+
+        MainFrame frame = (MainFrame)
+                javax.swing.SwingUtilities.getWindowAncestor(this);
+
+        if (frame != null) {
+            frame.tampil(namaHalaman);
+        }
     }
 
     public void setInfoPengguna(String nama, String nip) {
-        namaPetugas.setText(nama);
-        usernamePetugas.setText(nip);
+        namaPengguna.setText(nama);
+        usernamePengguna.setText(nip);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,21 +100,19 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        namaPetugas = new javax.swing.JLabel();
-        usernamePetugas = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
+        BtnDashboard = new javax.swing.JButton();
+        BtnPasien = new javax.swing.JButton();
+        BtnDaftar = new javax.swing.JButton();
+        BtnRiwayat = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        namaPengguna = new javax.swing.JLabel();
+        usernamePengguna = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel29 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
@@ -119,80 +161,11 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(11, 59, 68));
         jPanel6.setPreferredSize(new java.awt.Dimension(175, 554));
 
-        jButton1.setBackground(new java.awt.Color(255, 51, 51));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Keluar");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
-
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("PulseCare");
 
-        jButton4.setBackground(new java.awt.Color(20, 96, 108));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Dashboard");
-        jButton4.setBorder(null);
-        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton4MouseClicked(evt);
-            }
-        });
-        jButton4.addActionListener(this::jButton4ActionPerformed);
-
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Logo PulseCare sedang tanpa tulisan.png"))); // NOI18N
-
-        jButton5.setBackground(new java.awt.Color(186, 234, 242));
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(20, 96, 108));
-        jButton5.setText("Daftarkan Kunjungan");
-        jButton5.setBorder(null);
-        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton5MouseClicked(evt);
-            }
-        });
-        jButton5.addActionListener(this::jButton5ActionPerformed);
-
-        jButton6.setBackground(new java.awt.Color(20, 96, 108));
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Riwayat Kunjungan");
-        jButton6.setBorder(null);
-        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton6MouseClicked(evt);
-            }
-        });
-        jButton6.addActionListener(this::jButton6ActionPerformed);
-
-        jButton7.setBackground(new java.awt.Color(20, 96, 108));
-        jButton7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Perbarui Status");
-        jButton7.setBorder(null);
-        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton7MouseClicked(evt);
-            }
-        });
-        jButton7.addActionListener(this::jButton7ActionPerformed);
-
-        namaPetugas.setBackground(new java.awt.Color(255, 255, 255));
-        namaPetugas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        namaPetugas.setForeground(new java.awt.Color(255, 255, 255));
-        namaPetugas.setText("Nama Lengkap");
-
-        usernamePetugas.setForeground(new java.awt.Color(204, 204, 204));
-        usernamePetugas.setText("Username");
-
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pulsecare_profile_icon_50.png"))); // NOI18N
-        jLabel11.setText("jLabel10");
 
         jPanel12.setBackground(new java.awt.Color(20, 96, 108));
         jPanel12.setPreferredSize(new java.awt.Dimension(0, 2));
@@ -208,32 +181,63 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
             .addGap(0, 8, Short.MAX_VALUE)
         );
 
+        BtnDashboard.setBackground(new java.awt.Color(20, 96, 108));
+        BtnDashboard.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BtnDashboard.setForeground(new java.awt.Color(255, 255, 255));
+        BtnDashboard.setText("Dashboard");
+        BtnDashboard.setBorder(null);
+        BtnDashboard.addActionListener(this::BtnDashboardActionPerformed);
+
+        BtnPasien.setBackground(new java.awt.Color(20, 96, 108));
+        BtnPasien.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BtnPasien.setForeground(new java.awt.Color(255, 255, 255));
+        BtnPasien.setText("Data Pasien");
+        BtnPasien.setBorder(null);
+        BtnPasien.addActionListener(this::BtnPasienActionPerformed);
+
+        BtnDaftar.setBackground(new java.awt.Color(186, 234, 242));
+        BtnDaftar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BtnDaftar.setForeground(new java.awt.Color(20, 96, 108));
+        BtnDaftar.setText("Daftarkan Kunjungan");
+        BtnDaftar.setBorder(null);
+        BtnDaftar.addActionListener(this::BtnDaftarActionPerformed);
+
+        BtnRiwayat.setBackground(new java.awt.Color(20, 96, 108));
+        BtnRiwayat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BtnRiwayat.setForeground(new java.awt.Color(255, 255, 255));
+        BtnRiwayat.setText("Riwayat Kunjungan");
+        BtnRiwayat.setBorder(null);
+        BtnRiwayat.addActionListener(this::BtnRiwayatActionPerformed);
+
+        jButton6.setBackground(new java.awt.Color(229, 57, 53));
+        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setText("Keluar");
+        jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        jButton6.addActionListener(this::jButton6ActionPerformed);
+
+        namaPengguna.setBackground(new java.awt.Color(255, 255, 255));
+        namaPengguna.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        namaPengguna.setForeground(new java.awt.Color(255, 255, 255));
+        namaPengguna.setText("Nama Lengkap");
+
+        usernamePengguna.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        usernamePengguna.setForeground(new java.awt.Color(255, 255, 255));
+        usernamePengguna.setText("Username");
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pulsecare_profile_icon_50.png"))); // NOI18N
+        jLabel10.setText("jLabel10");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addGap(15, 15, 15)
-                                    .addComponent(usernamePetugas))
-                                .addComponent(namaPetugas))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(29, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(14, 14, 14)
@@ -241,12 +245,26 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
                             .addComponent(jLabel1))
                         .addGap(32, 32, 32))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(14, 14, 14))))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(BtnRiwayat, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BtnDaftar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                            .addComponent(BtnPasien, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BtnDashboard, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39))
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(namaPengguna))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(usernamePengguna)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,24 +274,24 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(BtnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BtnPasien, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BtnDaftar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BtnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(namaPetugas)
+                .addComponent(namaPengguna)
                 .addGap(4, 4, 4)
-                .addComponent(usernamePetugas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addComponent(usernamePengguna)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 570));
@@ -281,12 +299,6 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(20, 96, 108)));
-
-        jTextField3.addActionListener(this::jTextField3ActionPerformed);
-
-        jLabel29.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel29.setForeground(new java.awt.Color(22, 63, 76));
-        jLabel29.setText("Keluhan (Opsional)");
 
         jTextField4.addActionListener(this::jTextField4ActionPerformed);
 
@@ -327,37 +339,34 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4)
-                            .addComponent(jTextField3)
-                            .addComponent(jComboBox1, 0, 234, Short.MAX_VALUE)
-                            .addComponent(jTextField5))))
-                .addContainerGap(15, Short.MAX_VALUE))
+                    .addComponent(jComboBox1, 0, 243, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField4)
+                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel32)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel28)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel29)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -365,14 +374,14 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
                 .addComponent(jLabel30)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20))
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 90, 270, 420));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 90, 270, 320));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(20, 96, 108)));
@@ -542,7 +551,7 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -552,113 +561,116 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4MouseClicked
-
-    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5MouseClicked
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-    MainFrame frame = (MainFrame)javax.swing.SwingUtilities.getWindowAncestor(this);
-    frame.tampil("daftarkanKunjungan");
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6MouseClicked
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        MainFrame frame = (MainFrame)javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.tampil("riwayatKunjungan");
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7MouseClicked
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        MainFrame frame = (MainFrame)javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.tampil("perbaruiStatus");
-    }//GEN-LAST:event_jButton7ActionPerformed
-
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // Memastikan pasien sudah dipilih
-        if (pasienTerpilih == null) {
-            JOptionPane.showMessageDialog(this,
-                    "Silakan cari dan pilih pasien terlebih dahulu!");
-            return;
-        }
+        // 1. Memastikan pasien sudah dipilih
+      if (pasienTerpilih == null) {
+          JOptionPane.showMessageDialog(
+                  this,
+                  "Silakan cari dan pilih pasien terlebih dahulu!"
+          );
+          return;
+      }
 
-        // Memastikan identitas petugas tersedia
-        if (nipPetugasAktif == null || nipPetugasAktif.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Data petugas belum tersedia. Silakan login kembali!");
-            return;
-        }
+      // 2. Memastikan identitas petugas tersedia
+      if (nipPetugasAktif == null || nipPetugasAktif.isEmpty()) {
+          JOptionPane.showMessageDialog(
+                  this,
+                  "Data petugas belum tersedia. Silakan login kembali!"
+          );
+          return;
+      }
 
-        // Memastikan poliklinik sudah dipilih
-        String namaPoli = (String) jComboBox1.getSelectedItem();
+      // 3. Memastikan poliklinik sudah dipilih
+      String namaPoli = (String) jComboBox1.getSelectedItem();
 
-        if (namaPoli == null || !daftarPoli.containsKey(namaPoli)) {
-            JOptionPane.showMessageDialog(this,
-                    "Silakan pilih poliklinik terlebih dahulu!");
-            return;
-        }
+      if (namaPoli == null || !daftarPoli.containsKey(namaPoli)) {
+          JOptionPane.showMessageDialog(
+                  this,
+                  "Silakan pilih poliklinik terlebih dahulu!"
+          );
+          return;
+      }
 
-        String idPoli = daftarPoli.get(namaPoli);
-        String keluhan = jTextField3.getText().trim();
+      String idPoli = daftarPoli.get(namaPoli);
 
-        try {
-            KunjunganDAO dao = new KunjunganDAO();
+      try {
+          KunjunganDAO dao = new KunjunganDAO();
 
-            // Memeriksa apakah pasien masih memiliki antrean aktif
-            if (dao.adaKunjunganAktif(pasienTerpilih.getIdPasien())) {
-                JOptionPane.showMessageDialog(this,
-                        "Pasien masih memiliki kunjungan aktif hari ini!");
-                return;
-            }
+          // 4. Validasi tanggal kunjungan
+          String tanggalInput = jTextField4.getText().trim();
 
-            // Menyimpan pendaftaran kunjungan
-            String[] hasil = dao.tambahPendaftaran(
-                    nipPetugasAktif,
-                    pasienTerpilih.getIdPasien(),
-                    idPoli,
-                    keluhan
-            );
+          LocalDate tanggalKunjungan;
 
-            // Menampilkan tanggal dan nomor antrean
-            jTextField4.setText(
-                    LocalDate.now().format(
-                            DateTimeFormatter.ofPattern("dd-MM-yyyy")
-                    )
-            );
+          try {
+              tanggalKunjungan = LocalDate.parse(
+                      tanggalInput,
+                      DateTimeFormatter.ofPattern("dd-MM-yyyy")
+              );
 
-            jTextField5.setText(hasil[1]);
+          } catch (java.time.format.DateTimeParseException e) {
+              JOptionPane.showMessageDialog(
+                      this,
+                      "Format tanggal harus dd-MM-yyyy!"
+              );
+              return;
+          }
 
-            jLabel12.setText(
-                    pasienTerpilih.getIdPasien() + " - " + hasil[1]
-            );
+          if (tanggalKunjungan.isAfter(LocalDate.now())) {
+              JOptionPane.showMessageDialog(
+                      this,
+                      "Tanggal kunjungan tidak boleh melebihi hari ini!"
+              );
+              return;
+          }
 
-            JOptionPane.showMessageDialog(this,
-                    "Pendaftaran kunjungan berhasil!\n"
-                    + "ID Kunjungan: " + hasil[0] + "\n"
-                    + "Nomor Antrean: " + hasil[1]);
+          // 5. Memeriksa apakah pasien masih memiliki antrean aktif
+          if (dao.adaKunjunganAktif(pasienTerpilih.getIdPasien())) {
+              JOptionPane.showMessageDialog(
+                      this,
+                      "Pasien masih memiliki kunjungan aktif hari ini!"
+              );
+              return;
+          }
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Gagal menyimpan kunjungan: " + e.getMessage());
-        }
+          // 6. Menyimpan pendaftaran kunjungan
+          // Keluhan dikosongkan karena sudah dihapus dari form
+          String[] hasil = dao.tambahPendaftaran(
+                  nipPetugasAktif,
+                  pasienTerpilih.getIdPasien(),
+                  idPoli,
+                  ""
+          );
+
+          // 7. Menampilkan nomor antrean yang berhasil disimpan
+          jTextField5.setText(hasil[1]);
+
+          jLabel12.setText(
+                  pasienTerpilih.getIdPasien() + " - " + hasil[1]
+          );
+
+          JOptionPane.showMessageDialog(
+                  this,
+                  "Pendaftaran kunjungan berhasil!\n"
+                  + "ID Kunjungan: " + hasil[0] + "\n"
+                  + "Nomor Antrean: " + hasil[1]
+          );
+
+          // 8. Memuat nomor antrean berikutnya
+          muatNomorAntrean();
+
+      } catch (SQLException e) {
+          JOptionPane.showMessageDialog(
+                  this,
+                  "Gagal menyimpan kunjungan: " + e.getMessage(),
+                  "Kesalahan",
+                  JOptionPane.ERROR_MESSAGE
+          );
+      }
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         FormPasien form = new FormPasien(null, true);
@@ -763,10 +775,41 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
     
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        MainFrame frame = (MainFrame)javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.tampil("daftarkanKunjungan");
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void BtnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDashboardActionPerformed
+        bukaHalaman("dashboardPetugas");
+    }//GEN-LAST:event_BtnDashboardActionPerformed
+
+    private void BtnPasienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPasienActionPerformed
+        bukaHalaman("kelolaPasien");
+    }//GEN-LAST:event_BtnPasienActionPerformed
+
+    private void BtnDaftarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDaftarActionPerformed
+        MainFrame frame = (MainFrame)
+        javax.swing.SwingUtilities.getWindowAncestor(this);
+
+        frame.tampilkanDaftarkanKunjungan();
+    }//GEN-LAST:event_BtnDaftarActionPerformed
+
+    private void BtnRiwayatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRiwayatActionPerformed
+        bukaHalaman("riwayatKunjungan");
+    }//GEN-LAST:event_BtnRiwayatActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        int konfirmasi = JOptionPane.showConfirmDialog(
+            this,
+            "Apakah Anda yakin ingin keluar dari aplikasi?",
+            "Konfirmasi Logout",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (konfirmasi == JOptionPane.YES_OPTION) {
+            MainFrame frame = (MainFrame) javax.swing.SwingUtilities
+            .getWindowAncestor(this);
+
+            frame.tampil("login");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     public void setInfoPetugas(String nipPetugas, String namaPetugas) {
         nipPetugasAktif = nipPetugas;
@@ -796,17 +839,27 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
         }
     }
     private void batalForm() {
+
         // Menghapus pasien yang dipilih
         pasienTerpilih = null;
 
-        // Mengosongkan kolom pencarian dan formulir
+        // Mengosongkan kolom pencarian
         jTextField1.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
-        jTextField5.setText("");
+
+        // Mengembalikan tanggal ke hari ini
+        jTextField4.setText(
+                LocalDate.now().format(
+                        DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                )
+        );
+
+        // Memuat kembali nomor antrean berikutnya
+        muatNomorAntrean();
 
         // Mengembalikan pilihan poliklinik
-        jComboBox1.setSelectedIndex(0);
+        if (jComboBox1.getItemCount() > 0) {
+            jComboBox1.setSelectedIndex(0);
+        }
 
         // Mengembalikan informasi pasien
         jLabel26.setText("Nama Pasien");
@@ -818,19 +871,19 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton BtnDaftar;
+    private javax.swing.JButton BtnDashboard;
+    private javax.swing.JButton BtnPasien;
+    private javax.swing.JButton BtnRiwayat;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
@@ -847,7 +900,6 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel32;
@@ -859,20 +911,19 @@ public class DaftarkanKunjungan extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JLabel namaPetugas;
+    private javax.swing.JLabel namaPengguna;
     private javax.swing.JLabel terpilih;
-    private javax.swing.JLabel usernamePetugas;
+    private javax.swing.JLabel usernamePengguna;
     // End of variables declaration//GEN-END:variables
 
     private void muatDataPasien() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    void setInfoPetugas(String nip) {
+    public void setInfoPetugas(String nip) {
         nipPetugasAktif = nip;
-        usernamePetugas.setText(nip);
+        usernamePengguna.setText(nip);
     }
 }

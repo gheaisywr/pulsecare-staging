@@ -13,4 +13,13 @@ public class RiwayatKunjunganController {
     public List<Map<String, Object>> semua() throws SQLException {
         return riwayatDAO.semua();
     }
+    
+    public boolean hapus(String idKunjungan) throws SQLException {
+
+        if (idKunjungan == null || idKunjungan.trim().isEmpty()) {
+            return false;
+        }
+
+        return riwayatDAO.hapus(idKunjungan.trim());
+    }
 }

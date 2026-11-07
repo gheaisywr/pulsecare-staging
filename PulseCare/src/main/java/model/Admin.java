@@ -1,35 +1,19 @@
+
 package model;
 
-public class Admin {
-    private String nip;
-    private String namaLengkap;
+public class Admin extends Pegawai {
+
     private String username;
-    private String password;
 
     public Admin() {
+        super();
     }
 
-    public Admin(String nip, String namaLengkap, String username, String password, String statusAkun) {
-        this.nip = nip;
-        this.namaLengkap = namaLengkap;
+    public Admin(String nip, String namaLengkap, String username,
+                 String password, String statusAkun) {
+
+        super(nip, namaLengkap, password, statusAkun);
         this.username = username;
-        this.password = password;
-    }
-
-    public String getNip() {
-        return nip;
-    }
-
-    public void setNip(String nip) {
-        this.nip = nip;
-    }
-
-    public String getNamaLengkap() {
-        return namaLengkap;
-    }
-
-    public void setNamaLengkap(String namaLengkap) {
-        this.namaLengkap = namaLengkap;
     }
 
     public String getUsername() {
@@ -40,11 +24,8 @@ public class Admin {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String getPeran() {
+        return "Admin";
     }
 }

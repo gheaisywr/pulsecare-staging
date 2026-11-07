@@ -8,6 +8,11 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import dao.HasilKunjunganDAO;
+import model.HasilKunjungan;
+import java.sql.SQLException;
+import java.util.UUID;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,9 +25,18 @@ public class FormPemeriksaan extends javax.swing.JPanel {
     /**
      * Creates new form AntreanDokter
      */
-    public FormPemeriksaan() {
-        initComponents();
-    }
+public FormPemeriksaan() {
+    initComponents();
+
+    btnBatal.addActionListener(e -> {
+        MainFrame frame = (MainFrame)
+                javax.swing.SwingUtilities.getWindowAncestor(this);
+
+        if (frame != null) {
+            frame.tampil("antreanDokter");
+        }
+    });
+}
 
     public void setDataKunjungan(
             Object[] data, String namaDokter, String nipDokter) {
@@ -534,7 +548,80 @@ public class FormPemeriksaan extends javax.swing.JPanel {
     }//GEN-LAST:event_kolomResepObatActionPerformed
 
     private void btnSimpanHasilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanHasilActionPerformed
-        // TODO add your handling code here:
+         // Memastikan kunjungan dan dokter tersedia
+    if (idKunjungan == null || nipDokter == null) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Data kunjungan atau dokter tidak tersedia!"
+        );
+        return;
+    }
+
+    // Mengambil input form
+    String keluhan = kolomKeluhan.getText().trim();
+    String hasilPemeriksaan =
+            kolomHasilPemeriksaan.getText().trim();
+    String diagnosa = kolomDiagnosa.getText().trim();
+    String resepObat = kolomResepObat.getText().trim();
+    String catatan =
+            kolomCatatanTindakLanjut.getText().trim();
+
+    // Validasi input wajib
+    if (hasilPemeriksaan.isEmpty() || diagnosa.isEmpty()) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Hasil pemeriksaan dan diagnosa wajib diisi!"
+        );
+        return;
+    }
+
+    // Membuat ID hasil sepanjang 10 karakter
+    String idHasil = "H" + UUID.randomUUID()
+            .toString()
+            .replace("-", "")
+            .substring(0, 9)
+            .toUpperCase();
+
+    // Membentuk objek hasil kunjungan
+    HasilKunjungan hasil = new HasilKunjungan(
+            idHasil,
+            idKunjungan,
+            nipDokter,
+            keluhan,
+            hasilPemeriksaan,
+            diagnosa,
+            resepObat,
+            catatan
+    );
+
+    try {
+        HasilKunjunganDAO dao = new HasilKunjunganDAO();
+
+        boolean berhasil = dao.simpanDanSelesaikan(hasil);
+
+        if (berhasil) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Hasil pemeriksaan berhasil disimpan!\n"
+                    + "Status kunjungan otomatis menjadi SELESAI."
+            );
+
+            MainFrame frame = (MainFrame)
+                    javax.swing.SwingUtilities
+                            .getWindowAncestor(this);
+
+            if (frame != null) {
+                frame.tampil("antreanDokter");
+            }
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Gagal menyimpan hasil pemeriksaan: "
+                + e.getMessage()
+        );
+    }
     }//GEN-LAST:event_btnSimpanHasilActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import dao.PasienDAO;
 import model.Pasien;
+import model.Akun;
 //import view.DaftarkanKunjungan;
 //import view.RiwayatKunjungan;
 /**
@@ -115,17 +116,47 @@ public class KelolaPasien extends javax.swing.JPanel {
 
 
 // Mengatur warna nama petugas
-    namaPetugas.setForeground(java.awt.Color.WHITE);
+    namaPengguna.setForeground(java.awt.Color.WHITE);
+    usernamePengguna.setForeground(java.awt.Color.WHITE);
 
-      
-
+     
     }
     
     public void setInfoPetugas(String nip, String nama) {
-        this.nipPetugas = nip;
+        this.nipPetugas = nip;  
 
-        namaPetugas.setText(nama);
-        namaPetugas.setForeground(java.awt.Color.WHITE);
+        namaPengguna.setText(nama);
+        usernamePengguna.setText(nip);
+
+        namaPengguna.setForeground(java.awt.Color.WHITE);
+        usernamePengguna.setForeground(java.awt.Color.WHITE);
+    }
+    
+    private void bukaHalaman(String namaHalaman) {
+
+        MainFrame frame = (MainFrame)
+                javax.swing.SwingUtilities.getWindowAncestor(this);
+
+        if (frame == null) {
+            return;
+        }
+
+        // Pastikan session petugas masih tersedia
+        Akun akun = frame.getAkunPetugasAktif();
+
+        if (akun == null) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Session petugas tidak ditemukan. Silakan login kembali!"
+            );
+            frame.tampil("login");
+            return;
+        }
+
+        // Pertahankan informasi petugas
+        setInfoPetugas(akun.getNip(), akun.getNama());
+
+        frame.tampil(namaHalaman);
     }
     
     private void muatDataPasien() {
@@ -282,18 +313,17 @@ public class KelolaPasien extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
         jPanel10 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
-        ikontol = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         BtnDashboard = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
         BtnPasien = new javax.swing.JButton();
         BtnDaftar = new javax.swing.JButton();
         BtnRiwayat = new javax.swing.JButton();
-        BtnStatus = new javax.swing.JButton();
-        namaPetugas = new javax.swing.JLabel();
-        usernamePetugas = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
+        jButton6 = new javax.swing.JButton();
+        namaPengguna = new javax.swing.JLabel();
+        usernamePengguna = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -317,20 +347,11 @@ public class KelolaPasien extends javax.swing.JPanel {
         jPanel10.setAutoscrolls(true);
         jPanel10.setPreferredSize(new java.awt.Dimension(200, 0));
 
-        jButton6.setBackground(new java.awt.Color(229, 57, 53));
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Keluar");
-        jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
-        jButton6.addActionListener(this::jButton6ActionPerformed);
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Logo PulseCare sedang tanpa tulisan.png"))); // NOI18N
 
-        ikontol.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Logo PulseCare sedang tanpa tulisan.png"))); // NOI18N
-        ikontol.setText("jLabel2");
-
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("PulseCare");
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("PulseCare");
 
         BtnDashboard.setBackground(new java.awt.Color(20, 96, 108));
         BtnDashboard.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -338,45 +359,6 @@ public class KelolaPasien extends javax.swing.JPanel {
         BtnDashboard.setText("Dashboard");
         BtnDashboard.setBorder(null);
         BtnDashboard.addActionListener(this::BtnDashboardActionPerformed);
-
-        BtnPasien.setBackground(new java.awt.Color(186, 234, 242));
-        BtnPasien.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        BtnPasien.setForeground(new java.awt.Color(20, 96, 108));
-        BtnPasien.setText("Data Pasien");
-        BtnPasien.setBorder(null);
-        BtnPasien.addActionListener(this::BtnPasienActionPerformed);
-
-        BtnDaftar.setBackground(new java.awt.Color(20, 96, 108));
-        BtnDaftar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        BtnDaftar.setForeground(new java.awt.Color(255, 255, 255));
-        BtnDaftar.setText("Daftarkan Kunjungan");
-        BtnDaftar.setBorder(null);
-        BtnDaftar.addActionListener(this::BtnDaftarActionPerformed);
-
-        BtnRiwayat.setBackground(new java.awt.Color(20, 96, 108));
-        BtnRiwayat.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        BtnRiwayat.setForeground(new java.awt.Color(255, 255, 255));
-        BtnRiwayat.setText("Riwayat Kunjungan");
-        BtnRiwayat.setBorder(null);
-        BtnRiwayat.addActionListener(this::BtnRiwayatActionPerformed);
-
-        BtnStatus.setBackground(new java.awt.Color(20, 96, 108));
-        BtnStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        BtnStatus.setForeground(new java.awt.Color(255, 255, 255));
-        BtnStatus.setText("Perbarui Status");
-        BtnStatus.setBorder(null);
-        BtnStatus.addActionListener(this::BtnStatusActionPerformed);
-
-        namaPetugas.setBackground(new java.awt.Color(255, 255, 255));
-        namaPetugas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        namaPetugas.setForeground(new java.awt.Color(255, 255, 255));
-        namaPetugas.setText("Nama Lengkap");
-
-        usernamePetugas.setForeground(new java.awt.Color(204, 204, 204));
-        usernamePetugas.setText("Username");
-
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pulsecare_profile_icon_50.png"))); // NOI18N
-        jLabel11.setText("jLabel10");
 
         jPanel9.setBackground(new java.awt.Color(20, 96, 108));
         jPanel9.setPreferredSize(new java.awt.Dimension(0, 2));
@@ -392,56 +374,99 @@ public class KelolaPasien extends javax.swing.JPanel {
             .addGap(0, 8, Short.MAX_VALUE)
         );
 
+        BtnPasien.setBackground(new java.awt.Color(186, 234, 242));
+        BtnPasien.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BtnPasien.setForeground(new java.awt.Color(20, 96, 108));
+        BtnPasien.setText("Data Pasien");
+        BtnPasien.setBorder(null);
+        BtnPasien.addActionListener(this::BtnPasienActionPerformed);
+
+        BtnDaftar.setBackground(new java.awt.Color(20, 96, 108));
+        BtnDaftar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BtnDaftar.setForeground(new java.awt.Color(255, 255, 255));
+        BtnDaftar.setText("Daftarkan Kunjungan");
+        BtnDaftar.setBorder(null);
+        BtnDaftar.addActionListener(this::BtnDaftarActionPerformed);
+
+        BtnRiwayat.setBackground(new java.awt.Color(20, 96, 108));
+        BtnRiwayat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BtnRiwayat.setForeground(new java.awt.Color(255, 255, 255));
+        BtnRiwayat.setText("Riwayat Kunjungan");
+        BtnRiwayat.setBorder(null);
+        BtnRiwayat.addActionListener(this::BtnRiwayatActionPerformed);
+
+        jButton6.setBackground(new java.awt.Color(229, 57, 53));
+        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setText("Keluar");
+        jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        jButton6.addActionListener(this::jButton6ActionPerformed);
+
+        namaPengguna.setBackground(new java.awt.Color(255, 255, 255));
+        namaPengguna.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        namaPengguna.setForeground(new java.awt.Color(255, 255, 255));
+        namaPengguna.setText("Nama Lengkap");
+
+        usernamePengguna.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        usernamePengguna.setForeground(new java.awt.Color(255, 255, 255));
+        usernamePengguna.setText("Username");
+
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pulsecare_profile_icon_50.png"))); // NOI18N
+        jLabel13.setText("jLabel10");
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel10Layout.createSequentialGroup()
-                            .addGap(15, 15, 15)
-                            .addComponent(usernamePetugas))
-                        .addComponent(namaPetugas))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(40, 40, 40))
-            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(BtnDaftar, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(ikontol, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel2))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(BtnPasien, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BtnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel11))
+                            .addComponent(jLabel6))
+                        .addGap(0, 19, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(BtnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39))
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(namaPengguna))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(BtnStatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(BtnPasien, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(BtnDaftar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(BtnRiwayat, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(BtnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(8, Short.MAX_VALUE))
+                        .addComponent(usernamePengguna)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(ikontol, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
                 .addComponent(BtnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BtnPasien, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -449,19 +474,17 @@ public class KelolaPasien extends javax.swing.JPanel {
                 .addComponent(BtnDaftar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BtnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BtnStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(namaPetugas)
+                .addComponent(namaPengguna)
                 .addGap(4, 4, 4)
-                .addComponent(usernamePetugas)
+                .addComponent(usernamePengguna)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 549));
@@ -729,64 +752,6 @@ public class KelolaPasien extends javax.swing.JPanel {
        }
     }//GEN-LAST:event_tombolCariActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        int konfirmasi = JOptionPane.showConfirmDialog(
-            this,
-            "Apakah Anda yakin ingin keluar dari aplikasi?",
-            "Konfirmasi Logout",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE
-        );
-
-        if (konfirmasi == JOptionPane.YES_OPTION) {
-            Login halamanLogin = new Login();
-
-            javax.swing.JFrame frame = new javax.swing.JFrame("Login PulseCare");
-            frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-            frame.setContentPane(halamanLogin);
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-
-            javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
-        }
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void BtnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDashboardActionPerformed
-    MainFrame frame = (MainFrame) javax.swing.SwingUtilities
-            .getWindowAncestor(this);
-
-    if (frame != null) {
-        frame.tampil("dashboardPetugas");
-    }
-    }//GEN-LAST:event_BtnDashboardActionPerformed
-
-    private void BtnPasienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPasienActionPerformed
-        MainFrame frame = (MainFrame)
-                javax.swing.SwingUtilities.getWindowAncestor(this);
-
-        frame.tampil("kelolaPasien");
-    }//GEN-LAST:event_BtnPasienActionPerformed
-
-    private void BtnDaftarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDaftarActionPerformed
-        MainFrame frame = (MainFrame) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.tampilkanDaftarkanKunjungan();
-    }//GEN-LAST:event_BtnDaftarActionPerformed
-
-    private void BtnRiwayatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRiwayatActionPerformed
-    MainFrame frame = (MainFrame)
-            javax.swing.SwingUtilities.getWindowAncestor(this);
-
-    frame.tampil("riwayatKunjungan");
-    }//GEN-LAST:event_BtnRiwayatActionPerformed
-
-    private void BtnStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnStatusActionPerformed
-    MainFrame frame = (MainFrame)
-            javax.swing.SwingUtilities.getWindowAncestor(this);
-
-    frame.tampil("perbaruiStatus");
-    }//GEN-LAST:event_BtnStatusActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         FormPasien form = new FormPasien(null, true);
 
@@ -837,23 +802,88 @@ public class KelolaPasien extends javax.swing.JPanel {
         muatDataPasien();
     }//GEN-LAST:event_btnUbahActionPerformed
 
+    private void BtnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDashboardActionPerformed
+        bukaHalaman("dashboardPetugas");
+    }//GEN-LAST:event_BtnDashboardActionPerformed
+
+    private void BtnPasienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPasienActionPerformed
+        bukaHalaman("kelolaPasien");
+    }//GEN-LAST:event_BtnPasienActionPerformed
+
+    private void BtnDaftarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDaftarActionPerformed
+    
+    MainFrame frame = (MainFrame)
+        javax.swing.SwingUtilities.getWindowAncestor(this);
+
+        if (frame != null) {
+            Akun akun = frame.getAkunPetugasAktif();
+
+            if (akun == null) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Session petugas tidak ditemukan!"
+                );
+                return;
+            }
+
+            frame.tampilkanDaftarkanKunjungan();
+        }
+    }//GEN-LAST:event_BtnDaftarActionPerformed
+
+    private void BtnRiwayatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRiwayatActionPerformed
+        MainFrame frame = (MainFrame)
+            javax.swing.SwingUtilities.getWindowAncestor(this);
+
+        if (frame != null) {
+            Akun akun = frame.getAkunPetugasAktif();
+
+            if (akun == null) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Session petugas tidak ditemukan!"
+                );
+                return;
+            }
+
+            setInfoPetugas(akun.getNip(), akun.getNama());
+
+            frame.tampilkanRiwayatKunjungan("dashboardPetugas");
+        }
+    }//GEN-LAST:event_BtnRiwayatActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        int konfirmasi = JOptionPane.showConfirmDialog(
+            this,
+            "Apakah Anda yakin ingin keluar dari aplikasi?",
+            "Konfirmasi Logout",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (konfirmasi == JOptionPane.YES_OPTION) {
+            MainFrame frame = (MainFrame) javax.swing.SwingUtilities
+            .getWindowAncestor(this);
+
+            frame.tampil("login");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnDaftar;
     private javax.swing.JButton BtnDashboard;
     private javax.swing.JButton BtnPasien;
     private javax.swing.JButton BtnRiwayat;
-    private javax.swing.JButton BtnStatus;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnUbah;
     private javax.swing.JTextField cariPasien;
-    private javax.swing.JLabel ikontol;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
@@ -862,9 +892,9 @@ public class KelolaPasien extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextPane jTextPane1;
-    private javax.swing.JLabel namaPetugas;
+    private javax.swing.JLabel namaPengguna;
     private javax.swing.JLabel terpilih;
     private javax.swing.JButton tombolCari;
-    private javax.swing.JLabel usernamePetugas;
+    private javax.swing.JLabel usernamePengguna;
     // End of variables declaration//GEN-END:variables
 }

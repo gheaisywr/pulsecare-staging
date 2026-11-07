@@ -23,6 +23,7 @@ public class DashboardDokter extends javax.swing.JPanel {
 
     private Akun akunLogin;
     private Timer timerDashboard;
+    
 
     public DashboardDokter() {
         initComponents();
@@ -54,11 +55,12 @@ public class DashboardDokter extends javax.swing.JPanel {
      * Creates new form DashboardDokter
      */  
     
-    private void aturTabelAntrean() {
+private void aturTabelAntrean() {
     DefaultTableModel model = new DefaultTableModel(
         new Object[]{
             "No. Antrean",
             "Nama Pasien",
+            "Poliklinik",
             "Status"
         }, 0
     ) {
@@ -71,28 +73,43 @@ public class DashboardDokter extends javax.swing.JPanel {
     jTable2.setModel(model);
 }
 
-    private void muatAntrean() {
-        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0);
+private void muatAntrean() {
 
-        try {
-            KunjunganDAO dao = new KunjunganDAO();
+    DefaultTableModel model =
+            (DefaultTableModel) jTable2.getModel();
 
-            List<Object[]> daftar = dao.antreanDokterHariIni(
-                    akunLogin.getIdPoli()
-            );
+    model.setRowCount(0);
 
-            for (Object[] data : daftar) {
-                model.addRow(data);
+    try {
+        KunjunganDAO dao = new KunjunganDAO();
+
+        List<Object[]> daftar =
+                dao.antreanSemuaPoliHariIni();
+
+        for (Object[] data : daftar) {
+            String status = data[3].toString();
+
+            if (status.equalsIgnoreCase("menunggu")) {
+                status = "Menunggu";
+            } else if (status.equalsIgnoreCase("diperiksa")) {
+                status = "Sedang Diperiksa";
             }
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Gagal memuat antrean: " + e.getMessage()
-            );
+            model.addRow(new Object[]{
+                data[0],
+                data[1],
+                data[2],
+                status
+            });
         }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Gagal memuat antrean: " + e.getMessage()
+        );
     }
+}
 
     private void muatPasienSedangDiperiksa() {
         KunjunganDAO dao = new KunjunganDAO();
@@ -625,12 +642,12 @@ public class DashboardDokter extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnRiwayatKunjunganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRiwayatKunjunganActionPerformed
-        MainFrame frame = (MainFrame)
-                javax.swing.SwingUtilities.getWindowAncestor(this);
+MainFrame frame = (MainFrame)
+            javax.swing.SwingUtilities.getWindowAncestor(this);
 
-        if (frame != null) {
-            frame.tampilkanRiwayatKunjungan("dashboardDokter");
-        }
+    if (frame != null) {
+        frame.tampil("riwayatKunjunganDokter");
+    }
     }//GEN-LAST:event_btnRiwayatKunjunganActionPerformed
 
     private void btnRiwayatKunjunganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRiwayatKunjunganMouseClicked
